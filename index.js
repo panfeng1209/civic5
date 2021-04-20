@@ -1,21 +1,17 @@
 const launch = require('./main/puppeteer');
+const { click } = require('./help/callbacks');
 
-const glca = require('./config/glca');
-const gla = require('./config/gla');
-const haw = require('./config/haw');
+const data = require('./config/data');
 
-const resolveData = ({ datas, selector }) => datas.map(i => ({ url: i, selector }))
+const resolveData = ({ datas, selector, callback = click }) => datas.map(i => ({ url: i, selector, callback }))
 
 const go = async () => {
   const args = process.argv.splice(2);
   const [ hideX ] = args;
-  const tabs = 6;
   const datas = [
-    ...resolveData(gla),
-    ...resolveData(glca),
-    ...resolveData(haw),
+    ...resolveData(data),
   ];
-  launch(datas, hideX, tabs);
+  launch(datas, hideX);
 }
 
 go();
